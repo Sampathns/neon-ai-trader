@@ -1,0 +1,9 @@
+{
+  "name": "NEON AI TRADER ULTRA",
+  "short_name": "NEON TRADER",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#ff1e42",
+  "orientation": "portrait"
+}
