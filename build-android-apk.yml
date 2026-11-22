@@ -1,1 +1,32 @@
 
+name: Build Android APK (NEON AI TRADER ULTRA)
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+      - working-directory: frontend
+        run: |
+          npm install
+          npm run build
+          if [ ! -d "android" ]; then npx cap add android; fi
+          npx cap sync android
+      - working-directory: frontend/android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: neon-ai-trader-ultra-debug-apk
+          path: frontend/android/app/build/outputs/apk/debug/app-debug.apk
